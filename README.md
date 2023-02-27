@@ -22,4 +22,5 @@
 ## Study(README.md)
 
 1. [개발 환경 구축](https://github.com/mireyhgnay/life-coding-react/blob/main/Study/01.%20%EA%B0%9C%EB%B0%9C%20%ED%99%98%EA%B2%BD%20%EA%B5%AC%EC%B6%95.md)
-2. [컴포넌트 만들기]()
+2. [컴포넌트 만들기](https://github.com/mireyhgnay/life-coding-react/blob/main/Study/02.%20%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%20%EB%A7%8C%EB%93%A4%EA%B8%B0.md)
+3. [props 속성 사용하기]()
