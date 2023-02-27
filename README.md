@@ -21,5 +21,5 @@
 
 ## Study(README.md)
 
-1. [개발 환경 구축]()
+1. [개발 환경 구축](https://github.com/mireyhgnay/life-coding-react/blob/main/Study/01.%20%EA%B0%9C%EB%B0%9C%20%ED%99%98%EA%B2%BD%20%EA%B5%AC%EC%B6%95.md)
 2. [컴포넌트 만들기]()
