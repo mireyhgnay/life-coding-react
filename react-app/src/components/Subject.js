@@ -8,11 +8,8 @@ class Subject extends Component {
 				<h1><a href='/' onClick={function(e){
 					console.log(e);
 					e.preventDefault();
+					this.props.onChangePage(); // 함수 호출
 					// debugger;
-					// this.state.mode = 'welcome';
-					this.setState({
-						mode: 'welcome'
-					});
 				}.bind(this)}>{this.props.title}</a></h1>
 				{this.props.sub}
 			</header>

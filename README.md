@@ -27,3 +27,5 @@
 4. [Component 파일로 분리하기](https://github.com/mireyhgnay/life-coding-react/blob/main/Study/04.%20Component%20%ED%8C%8C%EC%9D%BC%EB%A1%9C%20%EB%B6%84%EB%A6%AC%ED%95%98%EA%B8%B0.md)
 5. [State 소개 및 사용](https://github.com/mireyhgnay/life-coding-react/blob/main/Study/05.%20State%20%EC%86%8C%EA%B0%9C%20%EB%B0%8F%20%EC%82%AC%EC%9A%A9.md)
 6. [이벤트 state, props, render, bind, setState]()
+7. [컴포넌트 이벤트 만들기]()
+8. [Create 구현하기]()
