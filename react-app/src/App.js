@@ -9,8 +9,9 @@ import "./App.css";
 class App extends Component {
   constructor(props) {
     super(props);
+    this.max_content_id = 3;
     this.state = {
-      mode: 'read',
+      mode: 'create',
       selected_content_id: 2, // id 2번인 CSS가 디폴트값으로 설정
       subject: { title: "WEB", sub: "World Wid Web!" },
       welcome: {title: 'Welcome', desc: 'Hello, React!!!'}, // mode 가 welcome일 경우의 state 설정
@@ -45,7 +46,39 @@ class App extends Component {
       // 모든 조건이 아닐때도 ReadContent 로 보여지도록
       _article = <ReadContent title={_title} desc={_desc}></ReadContent>
     } else if(this.state.mode === 'create') { // create mode 추가
-      _article = <CreateContent></CreateContent>
+      _article = <CreateContent onSubmit={function(_title, _desc){
+        // add content to this.state.contents
+
+        /* 비효율적인 방법(push - 원본 배열을 바꿈)
+        this.max_content_id = this.max_content_id + 1; // 1씩 증가
+        this.state.contents.push({
+          id : this.max_content_id,
+          title: _title,
+          desc: _desc
+        });
+        */
+
+        /* 효율적인 방법 (concat - 원본 배열을 복사하여 새로운 배열을 만듬)
+        var _contents = this.state.contents.concat(
+          {
+            id : this.max_content_id,
+            title: _title,
+            desc: _desc
+          }
+        )
+        */
+
+        // 더더 효율적인 방법 (Array.from)
+        var newContents = Array.from(this.state.contents);
+        newContents.push({
+          id : this.max_content_id,
+          title: _title,
+          desc: _desc
+        })
+        this.setState({
+          contents: newContents
+        })
+      }.bind(this)}></CreateContent>
     }
 
     return (

@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
 
 class TOC extends Component {	
+	// React 내장함수
+	shouldComponentUpdate(newProps, newState){
+		console.log('===> TOC render shouldComponentUpdate',
+			newProps.data,
+			this.props.data,
+		);
+		if(this.props.data === newProps.data){ // 이전 데이터와 새로운 변경된 데이터가 같다면 render() 하지마라!
+			return false;
+		}
+		return true;
+	}
 	render(){
 		console.log('TOC render');
 		var lists = [];
