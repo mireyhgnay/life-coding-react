@@ -117,11 +117,31 @@ class App extends Component {
           data={this.state.contents}
         ></TOC>
         <Control onChangeMode={(_mode) => {
-          this.setState({
-            mode : _mode
-          })
+          if(_mode === 'delete'){
+            // mode 가 delete라면 확인부터
+            if(window.confirm('really?')){
+              var _contents = Array.from(this.state.contents);
+              var i = 0;
+              while(i < _contents.length){
+                if(_contents[i].id === this.state.selected_content_id){
+                  _contents.splice(i, 1);
+                  break;
+                }
+                i = i + 1;
+              }
+              this.setState({
+                mode: 'welcome',
+                contents: _contents
+              });
+              alert('deleted!!');
+            }
+
+          } else {
+            this.setState({
+              mode : _mode
+            });
+          }
         }}></Control>        
-         {/* _article 변수 사용하여 모드에 따라 변경될 수 있도록 */}
         {this.getContent()}
       </div>
     );
