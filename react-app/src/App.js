@@ -4,6 +4,7 @@ import Subject from "./components/Subject";
 import Control from "./components/Control";
 import ReadContent from "./components/ReadContent";
 import CreateContent from "./components/CreateContent";
+import UpdateContent from "./components/UpdateContent";
 import "./App.css";
 
 class App extends Component {
@@ -11,7 +12,7 @@ class App extends Component {
     super(props);
     this.max_content_id = 3;
     this.state = {
-      mode: 'create',
+      mode: 'welcome',
       selected_content_id: 2, // id 2번인 CSS가 디폴트값으로 설정
       subject: { title: "WEB", sub: "World Wid Web!" },
       welcome: {title: 'Welcome', desc: 'Hello, React!!!'}, // mode 가 welcome일 경우의 state 설정
@@ -23,63 +24,79 @@ class App extends Component {
     };
   }
 
-  render() {
-    console.log('App render');
+  getReadContent(){
+    var i = 0;
+      while(i < this.state.contents.length){
+        var data = this.state.contents[i];
+        if(data.id === this.selected_content_id) {
+          return data;
+          // break;
+        }
+        i = i + 1;
+      }
+  }
+
+  getContent(){
     var _title, _desc, _article = null;
+
     if(this.state.mode === 'welcome'){
       _title = this.state.welcome.title;
       _desc = this.state.welcome.desc;
       // welcome 모드일때의 기본 노출
       _article = <ReadContent title={_title} desc={_desc}></ReadContent>
-    } else if(this.state.mode === 'read') {
-      var i = 0;
-      while(i < this.state.contents.length){
-        var data = this.state.contents[i];
-        if(data.id === this.selected_content_id) {
-          _title = data.title;
-          _desc = data.desc;
-          break;
-        }
-        i = i + 1;
-      }
-
+    } 
+    
+    else if(this.state.mode === 'read') {
+      var _content = this.getReadContent();
       // 모든 조건이 아닐때도 ReadContent 로 보여지도록
-      _article = <ReadContent title={_title} desc={_desc}></ReadContent>
-    } else if(this.state.mode === 'create') { // create mode 추가
+      _article = <ReadContent title={_content.title} desc={_content.desc}></ReadContent>
+    } 
+    
+    else if(this.state.mode === 'create') { // create mode 추가
       _article = <CreateContent onSubmit={function(_title, _desc){
         // add content to this.state.contents
+        this.max_content_id = this.max_content_id + 1;
 
-        /* 비효율적인 방법(push - 원본 배열을 바꿈)
-        this.max_content_id = this.max_content_id + 1; // 1씩 증가
-        this.state.contents.push({
+        var _contents = Array.from(this.state.contents);
+        _contents.push({
           id : this.max_content_id,
           title: _title,
           desc: _desc
         });
-        */
 
-        /* 효율적인 방법 (concat - 원본 배열을 복사하여 새로운 배열을 만듬)
-        var _contents = this.state.contents.concat(
-          {
-            id : this.max_content_id,
-            title: _title,
-            desc: _desc
-          }
-        )
-        */
-
-        // 더더 효율적인 방법 (Array.from)
-        var newContents = Array.from(this.state.contents);
-        newContents.push({
-          id : this.max_content_id,
-          title: _title,
-          desc: _desc
-        })
         this.setState({
-          contents: newContents
+          contents: _contents,
+          mode : 'read',
+          selected_content_id: this.max_content_id
         })
+       
       }.bind(this)}></CreateContent>
+    } 
+    
+    else if(this.state.mode === 'update') {
+      _content = this.getReadContent();
+      _article = <UpdateContent data={_content} onSubmit={function(_id, _title, _desc){
+        var _contents = Array.from(this.state.contents);
+        var i = 0;
+        while(i < _contents.length){
+          if(_contents[i].id === _id){
+            _contents[i] = {id : _id, title : _title, desc : _desc};
+            break;
+          }
+          i = i + 1;
+        }
+        this.setState({
+          contents: _contents,
+          mode : 'read'
+        });
+      }.bind(this)}></UpdateContent>
     }
+
+    return _article;
+  }
+
+  render() {
+    console.log('App render');
 
     return (
       <div className="App">
@@ -92,7 +109,7 @@ class App extends Component {
         ></Subject>
         <TOC 
           onChangePage={function(id){
-            setState = ({ 
+            this.setState = ({ 
               mode : 'read',
               selected_content_id: Number(id)
             })
@@ -105,7 +122,7 @@ class App extends Component {
           })
         }}></Control>        
          {/* _article 변수 사용하여 모드에 따라 변경될 수 있도록 */}
-        {_article}
+        {this.getContent()}
       </div>
     );
   }
